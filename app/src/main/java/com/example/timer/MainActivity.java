@@ -55,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
         String timeString = display.getText().toString();
         String [] timeValues = timeString.split(":");
         String [] timeValue = timeString.split(":");
-        timeValue[2]
         time.put("Hour", Integer.valueOf(timeValue[0]));
         time.put("Minutes", Integer.valueOf(timeValue[1]));
         time.put("Seconds", Integer.valueOf(timeValue[2]));
