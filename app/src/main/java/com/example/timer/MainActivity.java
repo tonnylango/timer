@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
     TextView display;
     Button button;
     boolean running;
+    int hours = 0, minutes = 0, seconds = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,13 +32,6 @@ public class MainActivity extends AppCompatActivity {
     private void startTimer(){
         //update button text
         button.setText("Stop");
-        HashMap<String, Integer> time = new HashMap<String, Integer>();
-        String timeString = display.getText().toString();
-        String [] timeValues = timeString.split(":");
-        String [] timeValue = timeString.split(":");
-        time.put("Hour", Integer.valueOf(timeValue[0]));
-        time.put("Minutes", Integer.valueOf(timeValue[1]));
-        time.put("Seconds", Integer.valueOf(timeValue[2]));
 
         while (running){ //TODO: check on variables that can be accessed by multiple threads
             try{
@@ -50,14 +44,27 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void updateDisplay(){
-        HashMap<String, Integer> time = new HashMap<String, Integer>();
-        String timeString = display.getText().toString();
-        String [] timeValues = timeString.split(":");
-        String [] timeValue = timeString.split(":");
-        time.put("Hour", Integer.valueOf(timeValue[0]));
-        time.put("Minutes", Integer.valueOf(timeValue[1]));
-        time.put("Seconds", Integer.valueOf(timeValue[2]));
+    private void updateTime(){
+        seconds += 1;
+        if (seconds >= 60 ){
+            seconds = 0;
+            minutes += 1;
+
+            if (minutes >= 60){
+                minutes = 0;
+                hours += 1;
+
+                if (hours >= 100 ){
+                    hours = 0;
+                    minutes = 0;
+                    seconds = 0;
+                }
+            }
+        }
+    }
+
+    private void setDisplay(){
+        String hourString = hours > 9 ? "0" + hours : "" + hours;
     }
 
 
