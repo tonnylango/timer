@@ -5,18 +5,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.os.Bundle;
 import android.service.autofill.FillEventHistory;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
     TextView display;
     Button button;
-    boolean running;
+    private volatile boolean running = true;
     int hours = 0, minutes = 0, seconds = 0;
+    Thread timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +28,21 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         display = (TextView) findViewById(R.id.display);
         button = (Button) findViewById(R.id.button);
+
+        timer = new Thread(this::startTimer);
+        button.setOnClickListener(this::onClick);
+    }
+
+    private void onClick(View view){
+        if (Objects.equals(button.getText().toString(), "Start")) {
+            startTimer();
+            button.setText("Stop");
+        }
+        else{
+            running = false;
+            button.setText("Start");
+        }
+
     }
 
     /*
@@ -31,12 +50,14 @@ public class MainActivity extends AppCompatActivity {
      */
     private void startTimer(){
         //update button text
-        button.setText("Stop");
+
+        running = true;
 
         while (running){ //TODO: check on variables that can be accessed by multiple threads
             try{
                 Thread.sleep(1000);
-
+                updateTime();
+                setDisplay();
             }catch (Exception e){
                 Toast errorToast = Toast.makeText(MainActivity.this, "Error, Some error occurred {e.getMessage()}", Toast.LENGTH_SHORT);
                 errorToast.show();
@@ -64,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setDisplay(){
-        String hourString = hours > 9 ? "0" + hours : "" + hours;
+        display.setText(String.join( ":", new String[] {String.format("%02d", hours), String.format("%02d", minutes), String.format("%02d", seconds)}));
     }
 
 
