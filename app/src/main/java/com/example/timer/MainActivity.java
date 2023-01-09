@@ -1,8 +1,10 @@
 package com.example.timer;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.os.Build;
 import android.os.Bundle;
 import android.service.autofill.FillEventHistory;
 import android.view.View;
@@ -26,7 +28,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         display = (TextView) findViewById(R.id.display);
+        setDisplay();
         button = (Button) findViewById(R.id.button);
 
         timer = new Thread(this::startTimer);
@@ -34,13 +38,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void onClick(View view){
-        if (Objects.equals(button.getText().toString(), "Start")) {
-            startTimer();
-            button.setText("Stop");
+        if (Objects.equals(button.getText().toString(), getString(R.string.start_timer))) {
+            timer.start();
+            button.setText(getString(R.string.stop_timer));
         }
         else{
             running = false;
-            button.setText("Start");
+            button.setText(getString(R.string.start_timer));
         }
 
     }
@@ -50,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
      */
     private void startTimer(){
         //update button text
-
         running = true;
 
         while (running){ //TODO: check on variables that can be accessed by multiple threads
@@ -59,8 +62,7 @@ public class MainActivity extends AppCompatActivity {
                 updateTime();
                 setDisplay();
             }catch (Exception e){
-                Toast errorToast = Toast.makeText(MainActivity.this, "Error, Some error occurred {e.getMessage()}", Toast.LENGTH_SHORT);
-                errorToast.show();
+                runOnUiThread(() -> Toast.makeText(MainActivity.this, "Error, Some error occurred {e.getMessage()}", Toast.LENGTH_SHORT).show());
             }
         }
     }
@@ -85,7 +87,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setDisplay(){
-        display.setText(String.join( ":", new String[] {String.format("%02d", hours), String.format("%02d", minutes), String.format("%02d", seconds)}));
+        runOnUiThread(() -> display.setText(getString(R.string.displayed_text, hours, minutes, seconds)));
+        //TODO display.setText(String.join( ":", new String[] {String.format("%02d", hours), String.format("%02d", minutes), String.format("%02d", seconds)}));
     }
 
 
