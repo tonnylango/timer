@@ -1,20 +1,17 @@
 package com.example.timer;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
-import android.os.Build;
 import android.os.Bundle;
-import android.service.autofill.FillEventHistory;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Objects;
+//todo check stop button
+//Todo add refresh button
+//todo add list of time stamps. and save.
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void onClick(View view){
-        if (Objects.equals(button.getText().toString(), getString(R.string.start_timer))) {
+        if (Objects.equals(button.getText().toString(), getString(R.string.start_timer))) { //Start
             timer.start();
             button.setText(getString(R.string.stop_timer));
         }
@@ -59,11 +56,16 @@ public class MainActivity extends AppCompatActivity {
         while (running){ //TODO: check on variables that can be accessed by multiple threads
             try{
                 Thread.sleep(1000);
-                updateTime();
-                setDisplay();
-            }catch (Exception e){
-                runOnUiThread(() -> Toast.makeText(MainActivity.this, "Error, Some error occurred {e.getMessage()}", Toast.LENGTH_SHORT).show());
+                if (running) {
+                    updateTime();
+                    setDisplay();
+                }
+            }catch (InterruptedException e){
+                showToast("Error, Some error occurred {e.getMessage()}");
             }
+            catch (Exception e){
+                showToast("Error, Some error occurred {e.getMessage()}");
+            } 
         }
     }
 
@@ -92,4 +94,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    private void showToast(String message) {
+        runOnUiThread(() -> Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show());
+    }
 }
