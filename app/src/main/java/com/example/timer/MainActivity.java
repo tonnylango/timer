@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
         display = (TextView) findViewById(R.id.display);
         setDisplay();
-        button = (Button) findViewById(R.id.button);
+        button = (Button) findViewById(R.id.startButton);
 
         timer = new Thread(this::startTimer);
         button.setOnClickListener(this::onClick);
@@ -91,6 +91,14 @@ public class MainActivity extends AppCompatActivity {
     private void setDisplay(){
         runOnUiThread(() -> display.setText(getString(R.string.displayed_text, hours, minutes, seconds)));
         //TODO display.setText(String.join( ":", new String[] {String.format("%02d", hours), String.format("%02d", minutes), String.format("%02d", seconds)}));
+    }
+
+    /*
+    called when refresh button is pressed. starts timer to 00:00:00
+     */
+    public void refreshTimer(View view){
+        hours = minutes = seconds = 0;
+        setDisplay();
     }
 
 
