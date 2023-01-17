@@ -12,6 +12,7 @@ import java.util.Objects;
 //todo check stop button
 //Todo add refresh button
 //todo add list of time stamps. and save.
+//todo save to db and retrieve
 
 public class MainActivity extends AppCompatActivity {
 
