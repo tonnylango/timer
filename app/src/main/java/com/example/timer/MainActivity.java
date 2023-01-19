@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,11 +23,19 @@ public class MainActivity extends AppCompatActivity {
     private volatile boolean running = true;
     int hours = 0, minutes = 0, seconds = 0;
     Thread timer;
+    ListView laps; //todo record time after refresh button is hit.
+    String[] time = {"00:00:00", "00:00:00", "00:00:00", "00:00:00", "00:00:00"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        laps  = (ListView) findViewById(R.id.laps);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.activity_list_view, R.id.textView, time);
+
+        // Bind the adapter to the ListView
+        laps.setAdapter(adapter);
 
         display = (TextView) findViewById(R.id.display);
         setDisplay();
