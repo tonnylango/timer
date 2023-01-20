@@ -57,6 +57,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void captureTime(View view){
+        String timeShown = display.g
+    }
+
     /*
     method should be called on a thread. updates the button and start timer count down
      */
