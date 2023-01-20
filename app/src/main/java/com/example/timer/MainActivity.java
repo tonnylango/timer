@@ -10,6 +10,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 //todo check stop button
 //Todo add refresh button
@@ -24,7 +26,10 @@ public class MainActivity extends AppCompatActivity {
     int hours = 0, minutes = 0, seconds = 0;
     Thread timer;
     ListView laps; //todo record time after refresh button is hit.
-    String[] time = {"00:00:00", "00:00:00", "00:00:00", "00:00:00", "00:00:00"};
+    final ArrayList<String> lapsList = new ArrayList<>();
+
+    ArrayAdapter<String> adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +37,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         laps  = (ListView) findViewById(R.id.laps);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.activity_list_view, R.id.textView, time);
+        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.activity_list_view, R.id.textView, time);
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, lapsList);
+
 
         // Bind the adapter to the ListView
         laps.setAdapter(adapter);
@@ -43,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
 
         timer = new Thread(this::startTimer);
         button.setOnClickListener(this::onClick);
+        
+        findViewById(R.id.captureTime).setOnClickListener((v)-> adapter.add(display.getText().toString()));
     }
 
     private void onClick(View view){
@@ -58,7 +67,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void captureTime(View view){
-        String timeShown = display.g
+        String timeShown = display.getText().toString();
+        adapter.add(timeShown);
     }
 
     /*
