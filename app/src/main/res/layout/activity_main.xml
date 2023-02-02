@@ -1,46 +1,47 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
+    android:background="@color/teal_200"
+    android:orientation="vertical"
+    android:weightSum="6"
     tools:context=".MainActivity">
 
     <TextView
         android:id="@+id/display"
+        style="@style/displayStyle" />
+
+    <ListView
+        android:id="@+id/laps"
+        style="@style/listStyle" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/linearLayoutCompat"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/displayed_text"
-        android:gravity="center"
-        android:textStyle="bold"
-        android:textSize="72sp"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.10" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/startButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:text="@string/start_timer"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/display" />
+        <Button
+            android:id="@+id/startButton"
+            style="@style/buttonStyle"
+            android:text="@string/start_timer" />
 
-    <Button
-        android:id="@+id/refreshButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="50dp"
-        android:text="REFRESH"
-        android:onClick="refreshTimer"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/display" />
+        <Button
+            android:id="@+id/captureTime"
+            style="@style/buttonStyle"
+            android:text="Capture" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <Button
+            android:id="@+id/refreshButton"
+            style="@style/buttonStyle"
+            android:onClick="refreshTimer"
+            android:text="@string/refresh" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</LinearLayout>
+
+
